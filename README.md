@@ -1,11 +1,11 @@
 ## CNN-image-classification-for-plant-disease-identification
-### Major Project IOE pulchowk
+#### Major Project IOE pulchowk
 
-#### Requirements:
+### Requirements:
 Look requirements.txt
 
 
-#### Preprocess the datasets
+### Preprocess the datasets
 ##### segment the images (Otsu-segmentation and green pixel masking)
 1. store the images in folder datasets/raw/species/disease-type
 2. run segment.py inside preprocessing/image-segmentation
@@ -19,7 +19,7 @@ note: the segmentation_verification model is to be trained first which uses tran
 
 ---python resume_training.py  (to train for more epochs or updated data)
 
-##### Train and test the various models
+### Train and test the various models
 1. move to folder trainer
 2. edit CNN models inside models
 3. edit train_diseases.py and train_species.py for using the required models
@@ -29,15 +29,18 @@ note: the segmentation_verification model is to be trained first which uses tran
 6. Similarly for species.
 7. The training is always resumed so use init_disease.py .... inside progress to restart training session
 
-##### Visualize and compare models 
+### Visualize and compare models 
 Use tensorboard to visualize events inside the logs/{}  Or use pickle files
 
-##### Finalize trainedModels
+### Finalize trainedModels
 Choose best models with best modelScore = (max.acc+max.val_acc+max.f1_score+max.val_f1_score)/4
 
-convert to protobuf format and save for inference
+convert to protobuf format remove unnecessary ops and save for inference
 1. move to finalise 
 2. ---python finalise.py
+
+### Deploy using flask api
+--- python deploy.py
 
 #### References:
 
