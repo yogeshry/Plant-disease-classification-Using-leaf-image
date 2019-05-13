@@ -33,8 +33,10 @@ python resume_training.py
 ``` 
 (to train for more epochs or updated data)
 
-
-
+##### Move the images to Trainable folder in 80/20 ratio of train and validation set
+```
+python dataSplit.py --source original/augmented
+```
 ### Train and test the various models
 1. move to folder trainer
 2. edit CNN models inside models
