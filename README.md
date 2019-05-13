@@ -8,7 +8,10 @@ Look requirements.txt
 ### Preprocess the datasets
 ##### segment the images (Otsu-segmentation and green pixel masking)
 1. store the images in folder datasets/raw/species/disease-type
-2. run segment.py inside preprocessing/image-segmentation
+2. run  segment.py  inside preprocessing/image-segmentation
+```
+python segment.py
+```
 
 ##### Verify segmentation and move well segmented images to augmented folder
 --- python chk_move_segmented_image.py
