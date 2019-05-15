@@ -96,44 +96,7 @@ class action():
       cls.prepare_graph_for_freezing(model_folder)
       cls.freeze_graph(model_folder)   
 	  
-  @classmethod
-  def keras_to_tf(  modelPath, outdir, numoutputs,  name, prefix='k2tfout'):
-    '''
-    Converts an HD5F file to a .pb file for use with Tensorflow.
-    Args:
-        modelPath (str): path to the .h5 file
-           outdir (str): path to the output directory
-       numoutputs (int):   
-           prefix (str): the prefix of the output aliasing
-             name (str):
-    Returns:
-        None
-    '''
-    #NOTE: If using Python > 3.2, this could be replaced with os.makedirs( name, exist_ok=True )
-    if not os.path.isdir(outdir):
-        os.mkdir(outdir)
-    net_model = load_model(modelPath)
-    # Alias the outputs in the model - this sometimes makes them easier to access in TF
-    pred = [None]*numoutputs
-    pred_node_names = [None]*numoutputs
-    for i in range(numoutputs):
-        pred_node_names[i] = prefix+'_'+str(i)
-        pred[i] = tf.identity(net_model.output[i], name=pred_node_names[i])
-    print('Output nodes names are: ', pred_node_names)
-
-    sess = backend.get_session()
-    
-    # Write the graph in human readable
-    f = 'graph_def_for_reference.pb.ascii'
-    tf.train.write_graph(sess.graph.as_graph_def(), outdir, f, as_text=True)
-    print('Saved the graph definition in ascii format at: ', osp.join(outdir, f))
-
-    # Write the graph in binary .pb file
-    from tensorflow.python.framework import graph_util
-    from tensorflow.python.framework import graph_io
-    constant_graph = graph_util.convert_variables_to_constants(sess, sess.graph.as_graph_def(), pred_node_names)
-    graph_io.write_graph(constant_graph, outdir, name, as_text=False)
-    print('Saved the constant graph (ready for inference) at: ', osp.join(outdir, name))
+  
 
 	  
   def load_graph(frozen_graph_filename):
@@ -153,7 +116,7 @@ class action():
   @classmethod
   def predict(cls, input_img_path,frozen_model_path="freeze/frozen_model.pb"):
       # load and prepare image for input as tensor 
-      img = image.load_img(input_img_path, target_size=(input_size, input_size))
+      img = image.load_img(input_img_path, target_size=(256, 256))
       img = image.img_to_array(img)
       img = np.expand_dims(img, axis=0)
       img = img/255
@@ -170,7 +133,7 @@ class action():
 
       # We access the input and output nodes 
       x = graph.get_tensor_by_name('prefix/input_1:0')
-      y = graph.get_tensor_by_name('prefix/y/Softmax:0')
+      y = graph.get_tensor_by_name('prefix/k2tfout_0:0')
 
       # We launch a Session
       with tf.Session(graph=graph) as sess:

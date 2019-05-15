@@ -35,6 +35,11 @@ def coreCNN(img_input):
             return output
 
         x = layers.Conv2D(64,3, activation = 'relu')(img_input)
+        x = layers.Conv2D(32,3, activation = 'relu')(x)
+        x = layers.Conv2D(32,3, activation = 'relu')(x)
+        x = layers.BatchNormalization()(x)
+        x = layers.Activation(activation='relu')(x)
+        x = layers.Conv2D(64,1, activation = 'relu')(x)
         y = layers.MaxPooling2D(3)(x)
 
         x = inception1(y)

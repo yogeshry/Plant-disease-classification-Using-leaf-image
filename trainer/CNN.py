@@ -162,7 +162,7 @@ class kerasModel():
         tensorboard = callbacks.TensorBoard(log_dir=self.event_dir,write_graph=True, write_images=True)
         reduce_lr = callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.7,
                                                 patience=7, min_lr=0.000001,verbose=1)
-        earlyStop = callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=20, verbose=1, mode='auto', baseline=None, restore_best_weights=True)       
+        earlyStop = callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=30, verbose=1, mode='auto', baseline=None, restore_best_weights=True)       
         self.history = self.__model.fit_generator(self.train_generator,
                                                   steps_per_epoch=100,
                                                   epochs=self.epochs,
@@ -171,6 +171,8 @@ class kerasModel():
                                                   verbose=2,
                                                   callbacks=[tensorboard,reduce_lr,earlyStop])
         #save the train history as bytestream using pickle
+        #print(self.__model.count_params())
+        self.history.history['params_num'] = self.__model.count_params()
         with open(self.train_history, 'wb') as file_pi:
           pickle.dump(self.history.history, file_pi)
         self.__model.save(self.model_dir)

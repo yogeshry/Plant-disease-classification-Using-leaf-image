@@ -4,10 +4,9 @@ import argparse
 import models.inception as a
 import models.inception_resnet as b
 import models.inception_resnet_se as c
-
 import models.mobilenetV2 as d
-import models.nasnetMobile as e
-import models.densenet as f
+import models.large_inception_resnet as e
+import models.large_inception_resnet_se as f
 
 import CNN
 import pickle
@@ -33,7 +32,7 @@ def train(progress_file, model_dict, models_list):
         action.l1_out=64; action.l2_out=64
         action.l1_drop=0.5;action.l2_drop=0.5 
         action.batch_size=15
-        action.epochs=200
+        action.epochs=250
         action.learn_rate=0.0001
       #classification only values for more than one class
         if num_disease>1:
@@ -53,13 +52,18 @@ if __name__ == '__main__':
     #models selection
     if args.model == '1':
       progress_file = "progress/progress_diseases"
-      model_dict = {a:'inception',b:'inception_resnet',c:'inception_resnet_se'}
-      models_list = [a, b, c]
+      model_dict = {a:'inception',b:'inception_resnet'}
+      models_list = [a, b]
       train(progress_file, model_dict, models_list)
     elif args.model == '2':
       progress_file = "progress/progress_diseases1"
-      model_dict = {d:'mobilenetV2',e:'nasnetMobile',f:'densenet'}
-      models_list = [d, e, f]
+      model_dict = {d:'mobilenetV2',c:'inception_resnet_se'}
+      models_list = [d, c]
+      train(progress_file, model_dict, models_list)
+    elif args.model == '3':
+      progress_file = "progress/progress_diseases2"
+      model_dict = {e:'large_inception_resnet',f:'large_inception_resnet_se'}
+      models_list = [e, f]
       train(progress_file, model_dict, models_list)
     else :
       print("Please select proper set of models")

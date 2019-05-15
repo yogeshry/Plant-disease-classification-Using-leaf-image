@@ -2,22 +2,19 @@ import os
 from keras import layers
 from keras import Model
 from keras.preprocessing.image import ImageDataGenerator
-from keras.applications.inception_v3 import InceptionV3
+from keras.applications.mobilenet_v2 import MobileNetV2
 from keras.optimizers import Adam
-
-local_weights_file = '../trainedModels/pretrained/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5'
-pre_trained_model = InceptionV3(
-            input_shape=(150, 150, 3), include_top=False, weights=None)
-pre_trained_model.load_weights(local_weights_file)
+	
+#transfer learning with MobileNetV2	
+img_input = layers.Input(shape=(150, 150,3))
+pre_trained_model = MobileNetV2(include_top=False, weights='imagenet', input_tensor=img_input)
 for layer in pre_trained_model.layers:
-   layer.trainable = True
-last_layer = pre_trained_model.get_layer('mixed7')
-print ('last layer output shape:', last_layer.output_shape)
-last_output = last_layer.output 
+  layer.trainable = True
+last_output = pre_trained_model.output 
 
 
 # Flatten the output layer to 1 dimension
-x = layers.Flatten()(last_output)
+x = layers.GlobalAveragePooling2D()(last_output)
 x= layers.BatchNormalization()(x)
 # Add a fully connected layer with 1,024 hidden units and ReLU activation
 x = layers.Dense(256, activation='elu')(x)
@@ -34,7 +31,7 @@ model.compile(loss='categorical_crossentropy',
 
 
 # Define our example directories and files
-base_dir = '../../datasets/Trainable/segmentation'
+base_dir = '../../../datasets/Trainable/segmentation'
 train_dir = os.path.join(base_dir, 'train')
 validation_dir = os.path.join(base_dir, 'validation')
 
@@ -64,7 +61,7 @@ train_generator = train_datagen.flow_from_directory(
         # Since we use binary_crossentropy loss, we need binary labels
         class_mode='categorical')
 
-# Flow validation images in batches of 20 using test_datagen generator
+# Flow validation images in batches of 10 using test_datagen generator
 validation_generator = test_datagen.flow_from_directory(
         validation_dir,
         target_size=(150, 150),
@@ -74,10 +71,10 @@ validation_generator = test_datagen.flow_from_directory(
 history = model.fit_generator(
       train_generator,
       steps_per_epoch=100,
-      epochs=50,
+      epochs=5,
       validation_data=validation_generator,
       validation_steps=50,
       verbose=2)  
       
-	 
+#save our segmentation_verification_model	 
 model.save('../trainedModels/segmentation_verification/segmentation_verification_model.h5')	  

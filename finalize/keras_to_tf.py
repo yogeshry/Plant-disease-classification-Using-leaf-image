@@ -42,3 +42,5 @@ def keras_to_tf(  modelPath, outdir, numoutputs,  name, prefix='k2tfout'):
   constant_graph = graph_util.convert_variables_to_constants(sess, sess.graph.as_graph_def(), pred_node_names)
   graph_io.write_graph(constant_graph, outdir, name, as_text=False)
   print('Saved the constant graph (ready for inference) at: ', osp.join(outdir, name))
+  backend.clear_session()
+

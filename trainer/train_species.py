@@ -1,13 +1,11 @@
 import action
 import os
 import argparse
-import models.inception as a
-import models.inception_resnet as b
-import models.inception_resnet_se as c
+import models.large_inception as a
+import models.large_inception_resnet as b
+import models.large_inception_resnet_se as c
 
 import models.mobilenetV2 as d
-import models.nasnetMobile as e
-import models.densenet as f
 import CNN
 import pickle
 
@@ -29,7 +27,7 @@ def train(progress_file, model_dict, models_list):
       action.l1_out=256; action.l2_out=512
       action.l1_drop=0.5;action.l2_drop=0.5 
       action.batch_size=15
-      action.epochs=200
+      action.epochs=250
       action.learn_rate=0.0001
       progress_num_local+=1
       if progress_num_local>progress_num_global:
@@ -46,13 +44,13 @@ if __name__ == '__main__':
   #models selection
   if args.model == '1':
     progress_file = "progress/progress_species"
-    model_dict = {a:'inceptionResnetV2',b:'xception',c:'nasnetLarge'}
-    models_list = [a, b, c]
+    model_dict = {a:'large_inception',b:'large_inception_resnet',c:'large_inception_resnet_se',d:'mobilenetV2'}
+    models_list = [a, b, c, d]
     train(progress_file, model_dict, models_list)
   elif args.model == '2':
     progress_file = "progress/progress_species1"
-    model_dict = {d:'mobilenetV2',e:'nasnetMobile',f:'densenet'}
-    models_list = [d, e, f]
+    model_dict = {}
+    models_list = []
     train(progress_file, model_dict, models_list)
   else :
     print("Please select proper set of models")

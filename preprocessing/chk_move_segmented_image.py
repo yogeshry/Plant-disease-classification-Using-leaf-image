@@ -5,8 +5,8 @@ import shutil
 import numpy as np
 
 model = load_model('../trainedModels/segmentation_verification/segmentation_verification_model.h5')
-source_dir = '../../datasets/All/segmented'
-dest_dir = '../../datasets/All/augmented'
+source_dir = '../../../datasets/All/segmented'
+dest_dir = '../../../datasets/All/augmented'
 for a in os.listdir(source_dir):
     for b in os.listdir(source_dir+'/'+a):
         for c in os.listdir(source_dir+'/'+a+'/'+b):

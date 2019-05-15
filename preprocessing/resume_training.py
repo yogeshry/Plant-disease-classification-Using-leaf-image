@@ -1,12 +1,13 @@
 from keras.models import load_model
-model = load_model('../trainedModels/segmentation_verification/segmentation_verification_model.h5')
 import os
 from keras import layers
 from keras.preprocessing.image import ImageDataGenerator
 
+#load the segmentation_verification_model
+model = load_model('../trainedModels/segmentation_verification/segmentation_verification_model.h5')
 
 # Define our example directories and files
-base_dir = '../../datasets/Trainable/segmentation'
+base_dir = '../../../datasets/Trainable/segmentation'
 train_dir = os.path.join(base_dir, 'train')
 validation_dir = os.path.join(base_dir, 'validation')
 
@@ -46,7 +47,7 @@ validation_generator = test_datagen.flow_from_directory(
 history = model.fit_generator(
       train_generator,
       steps_per_epoch=100,
-      epochs=40,
+      epochs=10,
       validation_data=validation_generator,
       validation_steps=50,
       verbose=2)  

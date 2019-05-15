@@ -114,12 +114,12 @@ if __name__ == '__main__':
                         default='flood')
     parser.add_argument('-s', '--smooth', action='store_true',
                         help='Output image with smooth edges')
-    parser.add_argument('-d', '--destination',default='../../../datasets/All/segmented/',
+    parser.add_argument('-d', '--destination',default='../../../../datasets/All/segmented/',
                         help='Destination directory for output image. '
                         'If not specified destination directory will be input image directory')
     parser.add_argument('-o', '--with_original', action='store_true',
                         help='Segmented output will be appended horizontally to the original image')
-    parser.add_argument('--image_source',default='../../../datasets/All/raw/', help='A path of image filename or folder containing images')
+    parser.add_argument('--image_source',default='../../../../datasets/All/raw/', help='A path of image filename or folder containing images')
     
     # set up command line arguments conveniently
     args = parser.parse_args()

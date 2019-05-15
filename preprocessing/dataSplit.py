@@ -9,11 +9,11 @@ import argparse
 
 def update(source):
     
-    source_dir = "../../datasets/All"+"/"+source
-    dest_dir1 = "../../datasets/Trainable/disease/"+source+"/"
-    dest_dir2 = "../../datasets/Trainable/species/"+source+"/"
-    dest_dir3 = "../../datasets/Trainable/disease/"+"mixed"+"/"
-    dest_dir4 = "../../datasets/Trainable/species/"+"mixed"+"/"
+    source_dir = "../../../datasets/All"+"/"+source
+    dest_dir1 = "../../../datasets/Trainable/disease/"+source+"/"
+    dest_dir2 = "../../../datasets/Trainable/species/"+source+"/"
+    dest_dir3 = "../../../datasets/Trainable/disease/"+"mixed"+"/"
+    dest_dir4 = "../../../datasets/Trainable/species/"+"mixed"+"/"
     #open source directory
     for a in os.listdir(source_dir):
         for b in os.listdir(source_dir+"/"+a):

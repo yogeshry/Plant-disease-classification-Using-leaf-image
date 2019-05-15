@@ -3,17 +3,17 @@ from keras import layers
 def coreCNN(img_input):        
         def se_block1(in_block, ch=64, ratio=16):
           x = layers.GlobalAveragePooling2D()(in_block)
-          x = layers.Dense(4, activation='relu')(x)
+          x = layers.Dense(16, activation='relu')(x)
           x = layers.Dense(ch, activation='sigmoid')(x)
           return layers.multiply([in_block, x])
         def se_block2(in_block, ch=48, ratio=16):
           x = layers.GlobalAveragePooling2D()(in_block)
-          x = layers.Dense(3, activation='relu')(x)
+          x = layers.Dense(12, activation='relu')(x)
           x = layers.Dense(ch, activation='sigmoid')(x)
           return layers.multiply([in_block, x])
         def se_block3(in_block, ch=32, ratio=16):
           x = layers.GlobalAveragePooling2D()(in_block)
-          x = layers.Dense(2, activation='relu')(x)
+          x = layers.Dense(8, activation='relu')(x)
           x = layers.Dense(ch, activation='sigmoid')(x)
           return layers.multiply([in_block, x])
         def inception1(input):
@@ -49,6 +49,11 @@ def coreCNN(img_input):
             return output
 
         x = layers.Conv2D(64,3, activation = 'relu')(img_input)
+        x = layers.Conv2D(32,3, activation = 'relu')(x)
+        x = layers.Conv2D(32,3, activation = 'relu')(x)
+        x = layers.BatchNormalization()(x)
+        x = layers.Activation(activation='relu')(x)
+        x = layers.Conv2D(64,1, activation = 'relu')(x)
         y = layers.MaxPooling2D(3)(x)
 
         x = inception1(y)
