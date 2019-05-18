@@ -6,13 +6,12 @@ import classifier
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/disease/<image_name>")
-def get_disease(image_name):
-    return classifier.classify_disease(image_name,'Apple')
+@app.route("/disease/<species_name>/<image_name>")
+def get_disease(image_name,species_name):
+    return jsonify(classifier.classify_disease('testImage/'+image_name,species_name))
 @app.route("/species/<image_name>")
 def get_species(image_name):
-    return image_name
-	#return classifier.classify_species(image_name)
+    return jsonify(classifier.classify_species('testImage/'+image_name))
 		
 
 

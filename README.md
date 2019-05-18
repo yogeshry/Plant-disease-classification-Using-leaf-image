@@ -6,7 +6,10 @@
 ### Requirements:
 Look requirements.txt
 
+### Dataset
+Plant village dataset with few extra classes of images
 
+link:  https://drive.google.com/open?id=1EuePtPjB2N_tZlaHjUTcw4p1JR4RldjP
 
 ### Preprocess the datasets
 ##### Segment the images (Otsu-segmentation and green pixel masking)
@@ -67,7 +70,7 @@ tensorboard --logdir = "logs/{}"
 
 
 ### Finalize trainedModels
-Choose best models with best modelScore = (max.acc+max.val_acc+max.f1_score+max.val_f1_score)/4
+Choose best models with best modelScore = (max.acc+max.val_acc+max.f1_score+max.val_f1_score)/4 + log20(2000000/params)
 
 convert to protobuf format remove unnecessary ops and save for inference
 1. move to finalise 
@@ -88,6 +91,11 @@ python deploy.py
 [Automatic Leaf Extraction from Outdoor
 Images ](https://arxiv.org/pdf/1709.06437.pdf)
 
+https://www.researchgate.net/publication/320649606_Plant_disease_identification_A_comparative_study
+
+https://www.researchgate.net/publication/303336153_SVM_and_ANN_Based_Classification_of_Plant_Diseases_Using_Feature_Reduction_Technique
+
+https://www.researchgate.net/publication/301879126_Advances_in_Very_Deep_Convolutional_Neural_Networks_for_LVCSR
 
 #### Authors:
 

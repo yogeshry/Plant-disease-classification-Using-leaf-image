@@ -25,28 +25,28 @@ Tomato_diseases=['Tomato___Bacterial_spot','Tomato___Early_blight','Tomato___hea
 diseases = [Apple_diseases,Badam_diseases,Blueberry_diseases,Cherry_diseases,Corn_diseases,Grape_diseases,Orange_diseases,Paddy_diseases,Peach_diseases,Pepper_diseases,Potato_diseases,Raspberry_diseases,Rose_diseases,Soyabean_diseases,Squash_diseases,Strawberry_diseases,Sunflower_diseases,Tomato_diseases]
 Species = ["Apple","Badam","Blueberry","Cherry","Corn","Grape","Orange","Paddy","Peach","Pepper","Potato","Raspberry","Rose","Soyabean","Squash","Strawberry","Sunflower","Tomato"]
 
-
-def classify_species(image_name):
-  imgPath = 'testImage/'+ image_name
+model_detail = 'trainedModels/inferenceModels/inferenceModels_list'
+def classify_species(imgPath):
   #open the list of inference models and build respective modelPath
-  pickle_in = open(progress_file,"rb")
+  pickle_in = open(model_detail,"rb")
   models_dict = pickle.load(pickle_in)
-  modelPath = "trainedModel/inferenceModel/protobuf/species"+models_dict['species'][0]
+  modelPath = "trainedModels/inferenceModels/protobuf/species/"+models_dict['species'][0]
   #the largest probability is provided for the class in prediction
-  pred = np.argmax(predict.predict(imgPath, modelPath)) 
+  prediction = predict.predict(imgPath, modelPath)
+  pred = np.argmax(prediction)
   pred_class = Species[pred]
-  return pred_class  
+  return [pred_class, str(max(prediction))]
   
-def classify_disease(image_name, species):
-  imgPath = 'testImage/'+ image_name
+def classify_disease(imgPath, species='unknown'):
   if species=='unknown':
-     species = classify_species(imgPath)
+     species = classify_species(imgPath)[0]
   #open the list of inference models and build respective modelPath
-  pickle_in = open(progress_file,"rb")
+  pickle_in = open(model_detail,"rb")
   models_dict = pickle.load(pickle_in)
-  modelPath = "trainedModel/inferenceModel/protobuf/diseases"+models_dict[species][0]
+  modelPath = "trainedModels/inferenceModels/protobuf/diseases/"+species+'/'+models_dict[species][0]
   #the largest probability is provided for the class in prediction
-  pred = np.argmax(predict.predict(imgPath, modelPath)) 
+  prediction = predict.predict(imgPath, modelPath)
+  pred = np.argmax(prediction) 
   pred_class = diseases[models_dict[species][2]][pred]
-  return pred_class
+  return [pred_class, str(max(prediction))]
 

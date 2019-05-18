@@ -172,10 +172,11 @@ class kerasModel():
                                                   callbacks=[tensorboard,reduce_lr,earlyStop])
         #save the train history as bytestream using pickle
         #print(self.__model.count_params())
+        self.__model.save(self.model_dir)
         self.history.history['params_num'] = self.__model.count_params()
         with open(self.train_history, 'wb') as file_pi:
           pickle.dump(self.history.history, file_pi)
-        self.__model.save(self.model_dir)
+        
 
     
     # evaluate mnist model

@@ -5,3 +5,4 @@ numpy 1.15.4
 Flask 1.0.2
 Flask_cors 3.0.7
 Flask_restful 0.3.7
+pickle
